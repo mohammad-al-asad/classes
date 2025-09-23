@@ -1,0 +1,64 @@
+// Types
+type Address = {
+  village: string;
+  postOffice: string;
+  upazila: string;
+  district: string;
+};
+
+type Parents = {
+  fatherName: string;
+  motherName: string;
+  guardianPhone: string;
+};
+
+type Gender = "Male" | "Female" | "Others";
+type Group = "Science" | "Commerce" | "Arts";
+enum Role {
+  Student,
+  Teacher,
+  Admin,
+}
+
+type Student = {
+  id: number;
+  name: string;
+  phone: string;
+  roll: number;
+  class: string;
+  group: Group;
+  subjects: string;
+  gender: Gender;
+  address: Address;
+  parents: Parents;
+  role: Role;
+  isActive: boolean;
+};
+
+// Real Student
+const student: Student = {
+  id: 84,
+  name: "Asad",
+  phone: "01367375234",
+  roll: 682984,
+  class: "14th",
+  group: "Science",
+  subjects: "Math",
+  gender: "Male",
+  address: {
+    village: "Fazilpur",
+    postOffice: "Fazilpur",
+    upazila: "Feni",
+    district: "Feni Sadar",
+  },
+  parents: {
+    fatherName: "Karim",
+    motherName: "Rasheda",
+    guardianPhone: "01843657653",
+  },
+  role: Role.Student,
+  isActive: true,
+};
+
+console.log(Role.Teacher);
+
