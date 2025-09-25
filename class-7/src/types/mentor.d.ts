@@ -1,4 +1,4 @@
-export default interface Catagory {
+export default interface Mentor {
   id: string;
   name: string;
   designation: string;

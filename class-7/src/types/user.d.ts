@@ -1,4 +1,6 @@
-interface user {
+import type Course from "./course.js";
+
+export default interface user {
   id: string;
   name: string;
   email: string;
@@ -10,6 +12,6 @@ interface user {
   GuardianName: string;
   guardianRelation: string;
   GuardianNumber: string;
-  // enrollCourse : Course
+  enrollCourse : Course
   isActive: boolean;
 }
