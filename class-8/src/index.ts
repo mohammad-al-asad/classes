@@ -9,6 +9,7 @@ import adminRouter from "./app/models/admin/admin.routes.js";
 
 dotenv.config();
 const app = express();
+app.use(express.json())
 app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {

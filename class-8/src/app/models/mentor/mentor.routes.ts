@@ -1,9 +1,8 @@
 import express from "express";
+import { createMentorController } from "./mentor.controller.js";
 
-const mentorRouter = express.Router();
+const courseRouter = express.Router();
 
-mentorRouter.get("create-mentor",(req,res)=>{
+courseRouter.post("/create-mentor",createMentorController);
 
-});
-
-export default mentorRouter;
+export default courseRouter;
