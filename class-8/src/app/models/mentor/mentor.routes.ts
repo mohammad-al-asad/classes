@@ -1,8 +1,18 @@
 import express from "express";
-import { createMentorController } from "./mentor.controller.js";
+import {
+  createMentorController,
+  deleteMentorController,
+  getAllMentorController,
+  getSingleMentorController,
+  updateMentorController,
+} from "./mentor.controller.js";
 
-const courseRouter = express.Router();
+const mentorRouter = express.Router();
 
-courseRouter.post("/create-mentor",createMentorController);
+mentorRouter.post("/create-mentor", createMentorController);
+mentorRouter.get("/", getAllMentorController);
+mentorRouter.get("/:id", getSingleMentorController);
+mentorRouter.delete("/:id", deleteMentorController);
+mentorRouter.put("/:id", updateMentorController);
 
-export default courseRouter;
+export default mentorRouter;
