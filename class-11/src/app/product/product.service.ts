@@ -1,17 +1,21 @@
+import CategoryModel from "../category/category.model.js";
 import type { Product } from "./product.js";
 import ProductModel from "./product.model.js";
 
 export async function getProductsService() {
-  const products = await ProductModel.find();
+  const products = await ProductModel.find().populate("category");
   return products;
 }
 
 export async function getSingleProductService(id: string) {
-  const product = await ProductModel.findById(id);
+  const product = await ProductModel.findById(id).populate("category");
   return product;
 }
 
 export async function createProductService(payload: Product) {
+  const res = await CategoryModel.findByIdAndUpdate(payload.category, {
+    $inc: { count: 1 },
+  });
   const product = await ProductModel.create(payload);
   return product;
 }
