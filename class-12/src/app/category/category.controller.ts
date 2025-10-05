@@ -15,13 +15,10 @@ export async function getCategoriesController(req: Request, res: Response) {
       message: "Catagories fetched successfully",
       data: catagories,
     });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch Catagories",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to fetch Catagories");
+    error.status = 500;
+    throw error;
   }
 }
 
@@ -33,13 +30,10 @@ export async function getSingleCategoryController(req: Request, res: Response) {
       message: "Category fetched successfully",
       data: category,
     });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetched Category",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to fetched Category");
+    error.status = 500;
+    throw error;
   }
 }
 
@@ -51,13 +45,10 @@ export async function createCategoryController(req: Request, res: Response) {
       message: "Category created successfully",
       data: category,
     });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).json({
-      success: false,
-      message: "Failed to create Category",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to create Category");
+    error.status = 500;
+    throw error;
   }
 }
 
@@ -68,13 +59,10 @@ export async function deleteCategoryController(req: Request, res: Response) {
       success: true,
       message: "Category deleted successfully",
     });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).json({
-      success: false,
-      message: "Failed to delete Category",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to delete Category");
+    error.status = 500;
+    throw error;
   }
 }
 
@@ -85,12 +73,9 @@ export async function updateCategoryController(req: Request, res: Response) {
       success: true,
       message: "Category updated successfully",
     });
-  } catch (error) {
-    console.log(error);
-
-    res.status(500).json({
-      success: false,
-      message: "Failed to update Category",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to update Category");
+    error.status = 500;
+    throw error;
   }
 }

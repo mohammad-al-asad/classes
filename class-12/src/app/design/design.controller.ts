@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
 import {
   createDesignService,
   deleteDesignService,
@@ -7,7 +7,8 @@ import {
   updateDesignService,
 } from "./design.service.js";
 
-export async function getDesignsController(req: Request, res: Response) {
+// Get all designs
+export async function getDesignsController(req: Request, res: Response, next: NextFunction) {
   try {
     const designs = await getDesignsService();
     res.status(200).json({
@@ -15,16 +16,15 @@ export async function getDesignsController(req: Request, res: Response) {
       message: "Designs fetched successfully",
       data: designs,
     });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch designs",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to fetch designs");
+    error.status = 500;
+    next(error);
   }
 }
 
-export async function getSingleDesignController(req: Request, res: Response) {
+// Get single design
+export async function getSingleDesignController(req: Request, res: Response, next: NextFunction) {
   try {
     const design = await getSingleDesignService(req.params.id as string);
     res.status(200).json({
@@ -32,16 +32,15 @@ export async function getSingleDesignController(req: Request, res: Response) {
       message: "Design fetched successfully",
       data: design,
     });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch design",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to fetch design");
+    error.status = 500;
+    next(error);
   }
 }
 
-export async function createDesignController(req: Request, res: Response) {
+// Create design
+export async function createDesignController(req: Request, res: Response, next: NextFunction) {
   try {
     const design = await createDesignService(req.body);
     res.status(200).json({
@@ -49,43 +48,39 @@ export async function createDesignController(req: Request, res: Response) {
       message: "Design created successfully",
       data: design,
     });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to create design",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to create design");
+    error.status = 500;
+    next(error);
   }
 }
 
-export async function deleteDesignController(req: Request, res: Response) {
+// Delete design
+export async function deleteDesignController(req: Request, res: Response, next: NextFunction) {
   try {
     await deleteDesignService(req.params.id as string);
     res.status(200).json({
       success: true,
       message: "Design deleted successfully",
     });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to delete design",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to delete design");
+    error.status = 500;
+    next(error);
   }
 }
 
-export async function updateDesignController(req: Request, res: Response) {
+// Update design
+export async function updateDesignController(req: Request, res: Response, next: NextFunction) {
   try {
     await updateDesignService(req.params.id as string, req.body);
     res.status(200).json({
       success: true,
       message: "Design updated successfully",
     });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to update design",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to update design");
+    error.status = 500;
+    next(error);
   }
 }

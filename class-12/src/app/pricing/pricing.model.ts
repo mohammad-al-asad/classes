@@ -18,7 +18,7 @@ const pricingSchema = new mongoose.Schema<Pricing>({
   },
   duration: {
     type: String,
-    required: true, // e.g., "1 month", "6 months", "1 year"
+    required: true,
   },
 });
 

@@ -2,12 +2,12 @@ import type { Design } from "./design.js";
 import DesignModel from "./design.model.js";
 
 export async function getDesignsService() {
-  const designs = await DesignModel.find();
+  const designs = await DesignModel.find().populate("category");
   return designs;
 }
 
 export async function getSingleDesignService(id: string) {
-  const design = await DesignModel.findById(id);
+  const design = await DesignModel.findById(id).populate("category");
   return design;
 }
 

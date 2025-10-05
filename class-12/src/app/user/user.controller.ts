@@ -1,92 +1,47 @@
-import type { Request, Response } from "express";
-import {
-  createUserService,
-  getUserByIdService,
-  getUserByEmailService,
-  updateUserService,
-  deleteUserService,
-} from "./user.service.js";
+import type { Request, Response, NextFunction } from "express";
+import { getUserByEmailService, updateUserService } from "./user.service.js";
 
-export async function createUserController(req: Request, res: Response) {
+// Get user by email
+export async function getUserByEmailController(req: Request, res: Response, next: NextFunction) {
   try {
-    const user = await createUserService(req.body);
-    res.status(201).json({
-      success: true,
-      message: "User created successfully",
-      data: user,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to create user",
-    });
-  }
-}
+    const user = await getUserByEmailService(req.body.email as string);
 
-export async function getUserByIdController(req: Request, res: Response) {
-  try {
-    const user = await getUserByIdService(req.params.id as string);
     if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
+      const error: any = new Error("User not found");
+      error.status = 404;
+      throw error;
     }
+
     res.status(200).json({
       success: true,
       data: user,
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to get user",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to get user");
+    error.status = err.status || 500;
+    next(error);
   }
 }
 
-export async function updateUserController(req: Request, res: Response) {
+// Update user
+export async function updateUserController(req: Request, res: Response, next: NextFunction) {
   try {
     const updatedUser = await updateUserService(req.params.id as string, req.body);
+
     if (!updatedUser) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
+      const error: any = new Error("User not found");
+      error.status = 404;
+      throw error;
     }
+
     res.status(200).json({
       success: true,
       message: "User updated successfully",
       data: updatedUser,
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to update user",
-    });
-  }
-}
-
-export async function deleteUserController(req: Request, res: Response) {
-  try {
-    const deletedUser = await deleteUserService(req.params.id as string);
-    if (!deletedUser) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
-    res.status(200).json({
-      success: true,
-      message: "User deleted successfully",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to delete user",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to update user");
+    error.status = err.status || 500;
+    next(error);
   }
 }

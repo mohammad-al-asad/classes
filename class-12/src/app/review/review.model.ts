@@ -4,12 +4,12 @@ import type { Review } from "./pricing.js";
 const reviewSchema = new mongoose.Schema<Review>({
   reviewer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "user",
     required: true,
   },
   design: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Design",
+    ref: "design",
     required: true,
   },
   rating: {

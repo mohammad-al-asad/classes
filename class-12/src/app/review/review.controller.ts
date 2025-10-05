@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
 import {
   createReviewService,
   getReviewsByDesignService,
@@ -6,7 +6,8 @@ import {
   updateReviewService,
 } from "./review.service.js";
 
-export async function createReviewController(req: Request, res: Response) {
+// Create Review
+export async function createReviewController(req: Request, res: Response, next: NextFunction) {
   try {
     const review = await createReviewService(req.body);
     res.status(201).json({
@@ -14,16 +15,15 @@ export async function createReviewController(req: Request, res: Response) {
       message: "Review created successfully",
       data: review,
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to create review",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to create review");
+    error.status = 500;
+    next(error);
   }
 }
 
-export async function getReviewsByDesignController(req: Request, res: Response) {
+// Get Reviews by Design
+export async function getReviewsByDesignController(req: Request, res: Response, next: NextFunction) {
   try {
     const designId = req.params.designId;
     const reviews = await getReviewsByDesignService(designId as string);
@@ -32,32 +32,30 @@ export async function getReviewsByDesignController(req: Request, res: Response) 
       message: "Reviews fetched successfully",
       data: reviews,
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch reviews",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to fetch reviews");
+    error.status = 500;
+    next(error);
   }
 }
 
-export async function deleteReviewController(req: Request, res: Response) {
+// Delete Review
+export async function deleteReviewController(req: Request, res: Response, next: NextFunction) {
   try {
     await deleteReviewService(req.params.id as string);
     res.status(200).json({
       success: true,
       message: "Review deleted successfully",
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to delete review",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to delete review");
+    error.status = 500;
+    next(error);
   }
 }
 
-export async function updateReviewController(req: Request, res: Response) {
+// Update Review
+export async function updateReviewController(req: Request, res: Response, next: NextFunction) {
   try {
     const updatedReview = await updateReviewService(req.params.id as string, req.body);
     res.status(200).json({
@@ -65,11 +63,9 @@ export async function updateReviewController(req: Request, res: Response) {
       message: "Review updated successfully",
       data: updatedReview,
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to update review",
-    });
+  } catch (err: any) {
+    const error: any = new Error(err.message || "Failed to update review");
+    error.status = 500;
+    next(error);
   }
 }
