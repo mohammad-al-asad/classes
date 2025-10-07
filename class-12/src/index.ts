@@ -5,6 +5,7 @@ import express, {
   type Response,
 } from "express";
 import designRouter from "./app/design/design.route.js";
+import cookieParser from "cookie-parser"
 import categoryRouter from "./app/category/category.route.js";
 import pricingRouter from "./app/pricing/pricing.route.js";
 import reviewRouter from "./app/review/review.route.js";
@@ -15,6 +16,7 @@ import authRouter from "./app/auth/auth.route.js";
 const app = express();
 dotenv.config();
 app.use(express.json());
+app.use(cookieParser(process.env.COOKIE_PARSER_SECRET))
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
