@@ -23,7 +23,13 @@ export async function loginUserController(req: Request, res: Response) {
       email: req.body.email,
     });
     if (user) {
-      await loginUserService(user, req.body);
+      const token = await loginUserService(user, req.body);
+      res.cookie(process.env.COOKIE_NAME as string, token,{
+          maxAge: parseInt(process.env.JWT_EXPIRE as string),
+          httpOnly: true,
+          signed: true,
+        });
+
       res.status(201).json({
         success: true,
         message: "User logged in successfully",
