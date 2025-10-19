@@ -6,10 +6,17 @@ import {
   updatePurchaseStatusController,
   deletePurchaseController,
 } from "./purchase.controller.js";
+import { authValidation } from "../../middleware/authValidation.js";
+import { roleValidation } from "../../middleware/roleValidation.js";
 
 const purchaseRouter = express.Router();
 
-purchaseRouter.post("/", createPurchaseController);
+purchaseRouter.post(
+  "/",
+  authValidation,
+  roleValidation("user"),
+  createPurchaseController
+);
 
 purchaseRouter.get("/customer/:customerId", getPurchasesByCustomerController);
 
