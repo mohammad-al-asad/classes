@@ -1,7 +1,7 @@
 import type mongoose from "mongoose";
 
 export interface IUser {
-  name: string;
+  username: string;
   email:string;
   password:string;
   role: "admin" | "provider" | "consumer";
