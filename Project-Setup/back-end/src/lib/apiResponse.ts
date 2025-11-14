@@ -4,13 +4,13 @@ export class ApiResponse {
   constructor(
     response: Response,
     status: number,
-    messsage: string,
-    data: any = {}
+    message: string,
+    data?: any
   ) {
     response.json({
       success: status > 300 ? false : true,
       status,
-      messsage,
+      message,
       data,
     });
   }
